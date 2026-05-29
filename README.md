@@ -24,12 +24,12 @@ A real-time, interactive financial news sentiment analysis dashboard. This appli
 1. **Clone the repository:**
    ```bash
    git clone [https://github.com/Vivek-Kuruwanshi/market-sentiment-analyzer.git](https://github.com/Vivek-Kuruwanshi/market-sentiment-analyzer.git)
-   cd market-sentiment-analyzer```
+   cd market-sentiment-analyzer
 
 2. **Install dependencies:**
    ```bash
-   pip install -r requirements.txt```
+   pip install -r requirements.txt
 
 3. **Run the application locally:**
    ```bash
-   streamlit run app.py ```
+   streamlit run app.py 
