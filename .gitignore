@@ -1,0 +1,18 @@
+# Byte-compiled / optimized / DLL files (Python junk)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments (If you used a virtual environment like venv or conda)
+.venv/
+venv/
+ENV/
+env/
+
+# Streamlit specific configuration and runtime files
+.streamlit/config.toml
+.streamlit/secrets.toml
+
+# Operating System files
+.DS_Store
+Thumbs.db
