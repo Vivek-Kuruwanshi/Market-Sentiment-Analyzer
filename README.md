@@ -32,4 +32,4 @@ A real-time, interactive financial news sentiment analysis dashboard. This appli
 
 3. **Run the application locally:**
    ```bash
-   streamlit run app.py 
+   streamlit run main.py 
