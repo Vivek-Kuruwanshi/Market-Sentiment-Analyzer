@@ -1,5 +1,5 @@
 feedparser==6.0.12
-pandas==3.0.3
+pandas
 plotly==6.7.0
 pymysql==1.2.0
 streamlit==1.55.0
