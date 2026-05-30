@@ -7,7 +7,7 @@ import urllib.parse
 import plotly.express as px
 
 @st.cache_resource(show_spinner="loading financial analysis model please wait")
-
+@st.cache_data(ttl=600)
 def load_pipeline():
     return transformers.pipeline(task = "text-classification",model = "ProsusAI/finbert",low_cpu_mem_usage=True)
 
