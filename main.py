@@ -5,10 +5,10 @@ import pandas as pd
 import urllib.parse
 import plotly.express as px
 
-@st.cache_resource(show_spinner="Loading financial analysis model...")
+@st.cache_resource(show_spinner="loading financial analysis model please wait")
 
 def load_pipeline():
-    return transformers.pipeline(task = "text-classification",model = "ProsusAI/finbert")
+    return transformers.pipeline(task = "text-classification",model = "ProsusAI/finbert",low_cpu_mem_usage=True)
 
 
 def generate_main_window():
@@ -45,11 +45,11 @@ def generate_main_window():
             st.plotly_chart(fig, use_container_width=True)
 
             if(data['positive']+data['negative']<data['neutral']):
-                st.warning("Neutral market outlook: Mixed sentiment dominates.")
+                st.warning("Not worth it")
             elif(data['positive']>data['negative']):
-                st.success("Bullish market outlook: Strong positive sentiment detected.")
+                st.success("The company is Bullish")
             else:
-                st.error("Bearish market outlook: Negative sentiment detected.")
+                st.error("The company is Bearish")
 
     else:
         st.error("please enter a valid company name")
@@ -60,7 +60,7 @@ def get_sentiment(sentences:list[str])->list[dict]:
     finbert = load_pipeline()
     sentiment = finbert(sentences)
     return sentiment
-@st.cache_data(ttl=600,show_spinner = "Scanning news and generating breakdown...")
+@st.cache_data(ttl=600,max_entries=2)
 def get_market_sentiment(summary_related_to_company:list[str])->dict:
     sentiments={"positive": 0, "negative": 0, "neutral": 0}
     market_sentiment = get_sentiment(summary_related_to_company)
@@ -80,7 +80,7 @@ def web_scrap_company_summary(company_name:str)->list[str]:
     feed = feedparser.parse(url)
 
     summaries = []
-    for entry in feed.entries: 
+    for entry in feed.entries[:100]: 
         if(getattr(entry,"summary","")):
             summaries.append(getattr(entry,"summary",""))
             summaries.append(getattr(entry,"title",""))
