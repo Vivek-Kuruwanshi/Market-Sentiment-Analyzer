@@ -7,7 +7,7 @@ import urllib.parse
 import plotly.express as px
 
 @st.cache_resource(show_spinner="loading financial analysis model please wait")
-@st.cache_data(ttl=600)
+
 def load_pipeline():
     return transformers.pipeline(task = "text-classification",model = "ProsusAI/finbert",low_cpu_mem_usage=True)
 
@@ -61,7 +61,7 @@ def get_sentiment(sentences:list[str])->list[dict]:
     finbert = load_pipeline()
     sentiment = finbert(sentences)
     return sentiment
-@st.cache_data(ttl=600,max_entries=1)
+
 def get_market_sentiment(summary_related_to_company:list[str])->dict:
     sentiments={"positive": 0, "negative": 0, "neutral": 0}
     market_sentiment = get_sentiment(summary_related_to_company)
