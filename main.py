@@ -1,4 +1,5 @@
 import feedparser
+import gc
 import streamlit as st
 import transformers 
 import pandas as pd
@@ -60,7 +61,7 @@ def get_sentiment(sentences:list[str])->list[dict]:
     finbert = load_pipeline()
     sentiment = finbert(sentences)
     return sentiment
-@st.cache_data(ttl=600,max_entries=2)
+@st.cache_data(ttl=600,max_entries=1)
 def get_market_sentiment(summary_related_to_company:list[str])->dict:
     sentiments={"positive": 0, "negative": 0, "neutral": 0}
     market_sentiment = get_sentiment(summary_related_to_company)
@@ -70,6 +71,7 @@ def get_market_sentiment(summary_related_to_company:list[str])->dict:
             continue
         else:
             sentiments[label]+=1
+    gc.collect()
     return sentiments
 
 
@@ -80,7 +82,7 @@ def web_scrap_company_summary(company_name:str)->list[str]:
     feed = feedparser.parse(url)
 
     summaries = []
-    for entry in feed.entries[:100]: 
+    for entry in feed.entries[:50]: 
         if(getattr(entry,"summary","")):
             summaries.append(getattr(entry,"summary",""))
             summaries.append(getattr(entry,"title",""))
