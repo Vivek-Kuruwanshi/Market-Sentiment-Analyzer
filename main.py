@@ -5,7 +5,7 @@ import pandas as pd
 import urllib.parse
 import plotly.express as px
 
-@st.cache_resource(show_spinner="loading financial analysis model please wait")
+@st.cache_resource(show_spinner="Loading financial analysis model...")
 
 def load_pipeline():
     return transformers.pipeline(task = "text-classification",model = "ProsusAI/finbert")
@@ -45,11 +45,11 @@ def generate_main_window():
             st.plotly_chart(fig, use_container_width=True)
 
             if(data['positive']+data['negative']<data['neutral']):
-                st.warning("Not worth it")
+                st.warning("Neutral market outlook: Mixed sentiment dominates.")
             elif(data['positive']>data['negative']):
-                st.success("The company is Bullish")
+                st.success("Bullish market outlook: Strong positive sentiment detected.")
             else:
-                st.error("The company is Bearish")
+                st.error("Bearish market outlook: Negative sentiment detected.")
 
     else:
         st.error("please enter a valid company name")
@@ -60,7 +60,7 @@ def get_sentiment(sentences:list[str])->list[dict]:
     finbert = load_pipeline()
     sentiment = finbert(sentences)
     return sentiment
-@st.cache_data(ttl=600)
+@st.cache_data(ttl=600,show_spinner = "Scanning news and generating breakdown...")
 def get_market_sentiment(summary_related_to_company:list[str])->dict:
     sentiments={"positive": 0, "negative": 0, "neutral": 0}
     market_sentiment = get_sentiment(summary_related_to_company)
